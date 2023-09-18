@@ -729,6 +729,7 @@ export class CosmosGatewayRoute extends BaseRoute {
   }
 
   async tryFetchRedeemTx(txData: UnsignedMessage): Promise<string | undefined> {
-    return undefined; // only for automatic routes
+    // TODO: after PR #915 is merged
+    return undefined;
   }
 }

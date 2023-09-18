@@ -42,7 +42,7 @@ import {
   SignedMessage,
   TransferInfoBaseParams,
 } from './types';
-import { fetchVaa } from '../vaa';
+import { fetchRelayGlobalTx, fetchVaa } from '../vaa';
 
 export type RelayOptions = {
   relayerFee?: number;
@@ -569,15 +569,24 @@ export class RelayRoute extends BridgeRoute {
     ];
   }
 
-  async tryFetchRedeemTx(txData: UnsignedMessage): Promise<string | undefined> {
-    // if this is an automatic transfer and the transaction hash was not found,
-    // then try to fetch the redeemed event
-    let redeemTx: string | undefined = undefined;
+  async tryFetchRedeemEvent(
+    txData: UnsignedMessage,
+  ): Promise<string | undefined> {
     try {
       const res = await fetchRedeemedEvent(txData);
-      redeemTx = res?.transactionHash;
-    } catch {}
+      return res?.transactionHash;
+    } catch (_) {
+      return undefined;
+    }
+  }
 
-    return redeemTx;
+  async tryFetchRedeemTx(txData: UnsignedMessage): Promise<string | undefined> {
+    try {
+      const tx = await fetchRelayGlobalTx(txData);
+      if (!tx) throw new Error('Could not fetch relay global tx');
+      return tx;
+    } catch (_) {
+      return await this.tryFetchRedeemEvent(txData);
+    }
   }
 }
