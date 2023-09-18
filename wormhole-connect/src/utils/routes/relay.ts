@@ -42,7 +42,7 @@ import {
   SignedMessage,
   TransferInfoBaseParams,
 } from './types';
-import { fetchRelayGlobalTx, fetchVaa } from '../vaa';
+import { fetchGlobalTx, fetchVaa } from '../vaa';
 
 export type RelayOptions = {
   relayerFee?: number;
@@ -582,7 +582,7 @@ export class RelayRoute extends BridgeRoute {
 
   async tryFetchRedeemTx(txData: UnsignedMessage): Promise<string | undefined> {
     try {
-      const tx = await fetchRelayGlobalTx(txData);
+      const tx = await fetchGlobalTx(txData);
       if (!tx) throw new Error('Could not fetch relay global tx');
       return tx;
     } catch (_) {
