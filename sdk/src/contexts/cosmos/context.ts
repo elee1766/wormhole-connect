@@ -67,6 +67,7 @@ const MAINNET_NATIVE_DENOMS: Record<string, string> = {
   terra2: 'uluna',
   cosmoshub: 'uatom',
   evmos: 'aevmos',
+  kujira: 'ukuji',
 };
 const TESTNET_NATIVE_DENOMS: Record<string, string> = {
   ...MAINNET_NATIVE_DENOMS,
