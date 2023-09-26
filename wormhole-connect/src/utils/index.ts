@@ -89,6 +89,7 @@ export function getTokenById(tokenId: TokenId): TokenConfig | void {
   return TOKENS_ARR.filter(
     (t) =>
       t.tokenId &&
+      tokenId.chain === t.tokenId.chain &&
       tokenId.address.toLowerCase() === t.tokenId!.address.toLowerCase(),
   )[0];
 }
